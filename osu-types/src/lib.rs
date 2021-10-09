@@ -1,4 +1,5 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum BeatmapFileSection {
     General,
     Editor,
@@ -28,6 +29,7 @@ impl BeatmapFileSection {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Countdown {
     Normal,
     Half,
@@ -35,6 +37,7 @@ pub enum Countdown {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum SampleSet {
     Normal,
     Soft,
@@ -54,6 +57,7 @@ impl SampleSet {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Mode {
     Osu,
     Taiko,
@@ -62,6 +66,7 @@ pub enum Mode {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct RGB<T> {
     r: T,
     g: T,
@@ -71,6 +76,7 @@ pub struct RGB<T> {
 pub type ComboColour = RGB<u8>;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Event {
     Background {
         filename: String,
@@ -85,6 +91,7 @@ pub enum Event {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TimingPoint {
     pub time: u32,
     pub beat_length: f32,
@@ -97,6 +104,7 @@ pub struct TimingPoint {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum SpecificHitObject {
     Circle,
     Slider {
@@ -111,6 +119,7 @@ pub enum SpecificHitObject {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct HitObject {
     pub position: (u16, u16),
     pub time: u32,
@@ -120,6 +129,7 @@ pub struct HitObject {
 }
 
 #[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct BeatmapGeneralData {
     pub audio_file_name: String,
     pub audio_lead_in: u32,
@@ -133,6 +143,7 @@ pub struct BeatmapGeneralData {
 }
 
 #[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct BeatmapMetadata {
     pub title: String,
     pub title_unicode: String,
@@ -147,6 +158,7 @@ pub struct BeatmapMetadata {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct BeatmapDifficulty {
     pub hp: f32,
     pub cs: f32,
@@ -157,6 +169,7 @@ pub struct BeatmapDifficulty {
 }
 
 #[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct BeatmapInfo {
     pub general_data: BeatmapGeneralData,
     pub metadata: BeatmapMetadata,

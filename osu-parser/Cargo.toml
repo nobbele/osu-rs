@@ -15,5 +15,6 @@ read-colours = []
 read-hit-objects = []
 
 [dependencies]
-osu-types = { path = "../osu-types" }
+osu-types = { path = "../osu-types", features = ["serde"] }
 thiserror = "1.0.29"
+serde = { version = "1.0.130", features = ["derive"], optional = true }

@@ -11,6 +11,7 @@ pub mod error;
 mod in_parse_types;
 
 // TODO make these optional at runtime
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Beatmap {
     pub info: BeatmapInfo,
     #[cfg(feature = "read-events")]
@@ -130,6 +131,7 @@ pub fn load_content(content: &str) -> OsuParserResult<Beatmap> {
                         "DistanceSpacing" => editor.distance_spacing = Some(value.parse()?),
                         "BeatDivisor" => editor.beat_divisor = Some(value.parse()?),
                         "GridSize" => editor.grid_size = Some(value.parse()?),
+                        "TimelineZoom" => editor.timeline_zoom = Some(value.parse()?),
                         _ => return Err(OsuParserError::InvalidKey(key.to_owned())),
                     }
                 };

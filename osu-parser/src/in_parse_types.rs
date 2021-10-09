@@ -20,6 +20,7 @@ pub struct InParseEditor {
     pub distance_spacing: Option<f32>,
     pub beat_divisor: Option<u8>,
     pub grid_size: Option<u8>,
+    pub timeline_zoom: Option<f32>,
 }
 
 #[derive(Default)]
