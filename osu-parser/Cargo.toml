@@ -2,9 +2,19 @@
 name = "osu-parser"
 version = "0.1.0"
 edition = "2018"
+resolver = "2"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+default = []
+read-editor = []
+read-events = []
+read-timing-points = []
+read-colours = []
+read-hit-objects = []
+
 [dependencies]
-osu-types = { path = "../osu-types" }
+osu-types = { path = "../osu-types", features = ["serde"] }
 thiserror = "1.0.29"
+serde = { version = "1.0.130", features = ["derive"], optional = true }
