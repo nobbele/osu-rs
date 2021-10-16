@@ -1,3 +1,5 @@
+pub mod osz2;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum BeatmapFileSection {
     General,
