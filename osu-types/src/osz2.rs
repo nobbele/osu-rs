@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 #[derive(Debug, PartialEq, Eq, Copy, Clone, Hash, num_enum::TryFromPrimitive)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[repr(u16)]
 pub enum MapMetaType {
     Title = 0,
@@ -29,6 +30,7 @@ pub enum MapMetaType {
 }
 
 #[derive(Debug, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct PackageFile {
     pub length: u32,
     pub hash: [u8; 16],
@@ -37,6 +39,7 @@ pub struct PackageFile {
 }
 
 #[derive(Debug, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct BeatmapPackage {
     pub metadata: HashMap<MapMetaType, String>,
     pub metadata_hash: [u8; 16],
