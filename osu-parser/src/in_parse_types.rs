@@ -14,7 +14,6 @@ pub struct InParseGeneral<'a> {
 }
 
 #[derive(Default)]
-#[cfg(feature = "read-editor")]
 pub struct InParseEditor {
     pub bookmarks: Vec<u32>,
     pub distance_spacing: Option<f32>,

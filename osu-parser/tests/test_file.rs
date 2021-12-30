@@ -1,9 +1,13 @@
-use osu_parser::load_file;
+use osu_parser::{load_file, BeatmapParseOptions};
 use osu_types::{Mode, SampleSet};
 
 #[test]
 pub fn parse_very_old() {
-    let beatmap = load_file("Kenji Ninuma - DISCOüÜPRINCE (peppy) [Normal].osu").unwrap();
+    let beatmap = load_file(
+        "Kenji Ninuma - DISCOüÜPRINCE (peppy) [Normal].osu",
+        BeatmapParseOptions::default(),
+    )
+    .unwrap();
 
     assert_eq!(beatmap.info.general_data.audio_file_name, "20.mp3");
 
@@ -15,7 +19,11 @@ pub fn parse_very_old() {
 
 #[test]
 pub fn parse_old() {
-    let beatmap = load_file("cYsmix feat. Emmy - Tear Rain (jonathanlfj) [Insane].osu").unwrap();
+    let beatmap = load_file(
+        "cYsmix feat. Emmy - Tear Rain (jonathanlfj) [Insane].osu",
+        BeatmapParseOptions::default(),
+    )
+    .unwrap();
 
     assert_eq!(beatmap.info.general_data.audio_file_name, "tearrain.mp3");
     assert_eq!(beatmap.info.general_data.audio_lead_in, 1500);
@@ -41,7 +49,11 @@ pub fn parse_old() {
 
 #[test]
 pub fn parse_modern() {
-    let beatmap = load_file("Nakiri Ayame - Good-bye sengen (Mir) [Extra].osu").unwrap();
+    let beatmap = load_file(
+        "Nakiri Ayame - Good-bye sengen (Mir) [Extra].osu",
+        BeatmapParseOptions::default(),
+    )
+    .unwrap();
 
     assert_eq!(beatmap.info.general_data.audio_file_name, "audio.mp3");
     assert_eq!(beatmap.info.general_data.audio_lead_in, 0);

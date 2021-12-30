@@ -9,7 +9,7 @@ pub enum BeatmapFileSection {
     Difficulty,
     Events,
     TimingPoints,
-    Colours,
+    Colors,
     HitObjects,
 }
 
@@ -22,7 +22,7 @@ impl BeatmapFileSection {
             "Difficulty" => Self::Difficulty,
             "Events" => Self::Events,
             "TimingPoints" => Self::TimingPoints,
-            "Colours" => Self::Colours,
+            "Colours" => Self::Colors,
             "HitObjects" => Self::HitObjects,
             _ => return None,
         };
@@ -75,7 +75,7 @@ pub struct RGB<T> {
     b: T,
 }
 
-pub type ComboColour = RGB<u8>;
+pub type ComboColor = RGB<u8>;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -95,7 +95,7 @@ pub enum Event {
 #[derive(Debug, Clone, Copy, PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TimingPoint {
-    pub time: u32,
+    pub time: i32,
     pub beat_length: f32,
     pub meter: u8,
     pub sample_set: Option<SampleSet>,
@@ -113,21 +113,31 @@ pub enum SpecificHitObject {
         // TODO
     },
     Spinner {
-        // TODO
+        end_time: u32,
     },
     ManiaHold {
         // TODO
     },
 }
 
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct HitSample {
+    pub normal_set: u8,
+    pub addition_set: u8,
+    pub index: u8,
+    pub volume: u8,
+    pub filename: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct HitObject {
     pub position: (u16, u16),
     pub time: u32,
     pub specific: SpecificHitObject,
     pub hit_sound: u8,
-    pub hit_sample: u8,
+    pub hit_sample: HitSample,
 }
 
 #[derive(Debug, Clone, PartialEq)]

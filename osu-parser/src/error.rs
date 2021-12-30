@@ -1,4 +1,6 @@
-pub type OsuParserResult<T> = Result<T, OsuParserError>;
+use osu_types::BeatmapFileSection;
+
+pub type OsuParserResult<T> = Result<T, (Option<BeatmapFileSection>, OsuParserError)>;
 
 #[derive(thiserror::Error, Debug)]
 pub enum OsuParserError {
