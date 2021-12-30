@@ -1,7 +1,14 @@
 pub mod osz2;
 
+#[cfg(feature = "serde")]
+use serde_crate::{Deserialize, Serialize};
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 pub enum BeatmapFileSection {
     General,
     Editor,
@@ -31,7 +38,11 @@ impl BeatmapFileSection {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 pub enum Countdown {
     Normal,
     Half,
@@ -39,7 +50,11 @@ pub enum Countdown {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 pub enum SampleSet {
     Normal,
     Soft,
@@ -59,7 +74,11 @@ impl SampleSet {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 pub enum Mode {
     Osu,
     Taiko,
@@ -68,7 +87,11 @@ pub enum Mode {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 pub struct RGB<T> {
     r: T,
     g: T,
@@ -78,7 +101,11 @@ pub struct RGB<T> {
 pub type ComboColor = RGB<u8>;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 pub enum Event {
     Background {
         filename: String,
@@ -93,7 +120,11 @@ pub enum Event {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 pub struct TimingPoint {
     pub time: i32,
     pub beat_length: f32,
@@ -106,11 +137,31 @@ pub struct TimingPoint {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
+pub enum CurveType {
+    Linear,
+    Perfect,
+    Bezier,
+    Catmull,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 pub enum SpecificHitObject {
     Circle,
     Slider {
-        // TODO
+        curve_type: CurveType,
+        curve_points: Vec<OsuPoint>,
+        slides: u8,
+        length: f32,
     },
     Spinner {
         end_time: u32,
@@ -121,7 +172,11 @@ pub enum SpecificHitObject {
 }
 
 #[derive(Debug, Clone, PartialEq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 pub struct HitSample {
     pub normal_set: u8,
     pub addition_set: u8,
@@ -131,7 +186,11 @@ pub struct HitSample {
 }
 
 #[derive(Debug, Clone, PartialEq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 pub struct HitObject {
     pub position: (u16, u16),
     pub time: u32,
@@ -141,7 +200,11 @@ pub struct HitObject {
 }
 
 #[derive(Debug, Clone, PartialEq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 pub struct BeatmapGeneralData {
     pub audio_file_name: String,
     pub audio_lead_in: u32,
@@ -155,7 +218,11 @@ pub struct BeatmapGeneralData {
 }
 
 #[derive(Debug, Clone, PartialEq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 pub struct BeatmapMetadata {
     pub title: String,
     pub title_unicode: String,
@@ -170,7 +237,11 @@ pub struct BeatmapMetadata {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 pub struct BeatmapDifficulty {
     pub hp: f32,
     pub cs: f32,
@@ -181,9 +252,19 @@ pub struct BeatmapDifficulty {
 }
 
 #[derive(Debug, Clone, PartialEq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 pub struct BeatmapInfo {
     pub general_data: BeatmapGeneralData,
     pub metadata: BeatmapMetadata,
     pub difficulty: BeatmapDifficulty,
+}
+
+pub type OsuPoint = mint::Point2<i16>;
+
+pub fn osu_point(x: i16, y: i16) -> OsuPoint {
+    OsuPoint { x, y }
 }

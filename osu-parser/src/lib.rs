@@ -6,8 +6,8 @@ use error::*;
 use in_parse_types::*;
 use osu_types::{
     BeatmapDifficulty, BeatmapFileSection, BeatmapGeneralData, BeatmapInfo, BeatmapMetadata,
-    ComboColor, Countdown, Event, HitObject, HitSample, Mode, SampleSet, SpecificHitObject,
-    TimingPoint,
+    ComboColor, Countdown, CurveType, Event, HitObject, HitSample, Mode, OsuPoint, SampleSet,
+    SpecificHitObject, TimingPoint,
 };
 
 pub mod error;
@@ -417,12 +417,33 @@ fn read_hitobject_line(line: &str) -> Result<HitObject, OsuParserError> {
         SpecificHitObject::Circle
     } else if ty & (1 << 1) > 0 {
         // Slider
-        let curve_data = entries.next().ok_or(OsuParserError::BadFormat)?.split('|');
+        let mut curve_data = entries.next().ok_or(OsuParserError::BadFormat)?.split('|');
+        let curve_type = match curve_data.next().ok_or(OsuParserError::BadFormat)? {
+            "B" => CurveType::Bezier,
+            "C" => CurveType::Catmull,
+            "P" => CurveType::Perfect,
+            "L" => CurveType::Linear,
+            _ => return Err(OsuParserError::BadFormat),
+        };
+
+        let curve_points = curve_data
+            .map(|p| {
+                let mut p_split = p.split(':');
+                let x = p_split.next().ok_or(OsuParserError::BadFormat)?.parse()?;
+                let y = p_split.next().ok_or(OsuParserError::BadFormat)?.parse()?;
+                Ok(OsuPoint { x, y })
+            })
+            .collect::<Result<Vec<_>, OsuParserError>>()?;
         let slides: u8 = entries.next().ok_or(OsuParserError::BadFormat)?.parse()?;
         let length: f32 = entries.next().ok_or(OsuParserError::BadFormat)?.parse()?;
         let edge_sounds = entries.next().map(|s| s.split('|'));
         let edge_sets = entries.next().map(|s| s.split('|'));
-        SpecificHitObject::Slider {}
+        SpecificHitObject::Slider {
+            curve_type,
+            curve_points,
+            slides,
+            length,
+        }
     } else if ty & (1 << 3) > 0 {
         // Spinner
         let end_time: u32 = entries.next().ok_or(OsuParserError::BadFormat)?.parse()?;

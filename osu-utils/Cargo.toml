@@ -1,0 +1,11 @@
+[package]
+name = "osu-utils"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+osu-types = { path = "../osu-types" }
+mint = "0.5.8"
+ordered-float = "2.8.0"

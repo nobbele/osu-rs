@@ -1,7 +1,14 @@
 use std::collections::HashMap;
 
+#[cfg(feature = "serde")]
+use serde_crate::{Deserialize, Serialize};
+
 #[derive(Debug, PartialEq, Eq, Copy, Clone, Hash, num_enum::TryFromPrimitive)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 #[repr(u16)]
 pub enum MapMetaType {
     Title = 0,
@@ -30,7 +37,11 @@ pub enum MapMetaType {
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 pub struct PackageFile {
     pub length: u32,
     pub hash: [u8; 16],
@@ -39,7 +50,11 @@ pub struct PackageFile {
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(Serialize, Deserialize),
+    serde(crate = "serde_crate")
+)]
 pub struct BeatmapPackage {
     pub metadata: HashMap<MapMetaType, String>,
     pub metadata_hash: [u8; 16],

@@ -6,9 +6,18 @@ resolver = "2"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+serde = ["serde_crate", "mint/serde"]
+
 [dependencies]
 num_enum = "0.5.4"
-serde = { version = "1.0.130", features = ["derive"], optional = true }
+mint = "0.5.8"
+
+[dependencies.serde_crate]
+package = "serde"
+version = "1.0.130"
+features = ["derive"]
+optional = true
 
 [profile.release]
 opt-level = "s"
