@@ -411,7 +411,6 @@ fn read_hitobject_line(line: &str) -> Result<HitObject, OsuParserError> {
     let time: f32 = entries.next().ok_or(OsuParserError::BadFormat)?.parse()?;
     let ty: u32 = entries.next().ok_or(OsuParserError::BadFormat)?.parse()?;
     let hit_sound: u8 = entries.next().ok_or(OsuParserError::BadFormat)?.parse()?;
-    println!("Parsing object type {} at {}", ty, time);
     let mut hit_sample = None;
     let specific = if ty & (1 << 0) > 0 {
         // Hit Circle. Nothing extra
