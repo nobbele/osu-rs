@@ -48,6 +48,7 @@ impl Spline {
             .collect::<Vec<_>>();
         let spline_points = match kind {
             CurveType::Linear => {
+                assert_eq!(points.len(), 2);
                 let start = points[0];
                 let end = if let Some(pixel_length) = pixel_length {
                     point_on_line(points[0], points[1], pixel_length)
@@ -57,6 +58,7 @@ impl Spline {
                 vec![start, end]
             }
             CurveType::Perfect => {
+                assert_eq!(points.len(), 3);
                 let (p1, p2, p3) = (points[0], points[1], points[2]);
                 let (center, radius) = circumcircle(p1, p2, p3);
 
@@ -98,6 +100,7 @@ impl Spline {
                 c
             }
             CurveType::Bezier => {
+                assert!(points.len() > 3);
                 let mut output = Vec::new();
                 let mut last_index = 0;
                 let mut i = 0;
