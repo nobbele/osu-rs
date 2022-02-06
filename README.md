@@ -10,3 +10,6 @@ Various osu-related types. Used to provide interoperability between the librarie
 
 ### osz2
 Parser for .osz2 files (osu! beatmap set archive v2). This format is only used on the game server, and can't be exported by the client.
+
+### osu-utils
+Utility calculations such as AR->ms, CS->px and slider calculations.
