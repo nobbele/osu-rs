@@ -1,6 +1,4 @@
-#![allow(unused)]
-
-use std::num::{ParseFloatError, ParseIntError};
+use std::num::ParseIntError;
 
 use error::*;
 use in_parse_types::*;
@@ -436,13 +434,18 @@ fn read_hitobject_line(line: &str) -> Result<HitObject, OsuParserError> {
             .collect::<Result<Vec<_>, OsuParserError>>()?;
         let slides: u8 = entries.next().ok_or(OsuParserError::BadFormat)?.parse()?;
         let length: f32 = entries.next().ok_or(OsuParserError::BadFormat)?.parse()?;
-        let edge_sounds = entries.next().map(|s| s.split('|'));
-        let edge_sets = entries.next().map(|s| s.split('|'));
+        let edge_sounds = entries.next().map(|s| {
+            s.split('|')
+                .map(|e| e.parse::<u8>().unwrap())
+                .collect::<Vec<_>>()
+        });
+        let _edge_sets = entries.next().map(|s| s.split('|').collect::<Vec<_>>());
         SpecificHitObject::Slider {
             curve_type,
             curve_points,
             slides,
             length,
+            edge_sounds: edge_sounds.unwrap_or_else(|| vec![0, 0]),
         }
     } else if ty & (1 << 3) > 0 {
         // Spinner
@@ -451,15 +454,15 @@ fn read_hitobject_line(line: &str) -> Result<HitObject, OsuParserError> {
     } else if ty & (1 << 7) > 0 {
         // Mania Hold
         let mut split = entries.next().ok_or(OsuParserError::BadFormat)?.split(':');
-        let end_time: u32 = split.next().ok_or(OsuParserError::BadFormat)?.parse()?;
+        let _end_time: u32 = split.next().ok_or(OsuParserError::BadFormat)?.parse()?;
         let hit_sample_str = split.next().ok_or(OsuParserError::BadFormat)?;
         hit_sample = Some(parse_hit_sample(hit_sample_str)?);
         SpecificHitObject::ManiaHold {}
     } else {
         return Err(OsuParserError::BadFormat);
     };
-    let new_combo = ty & (1 << 2) > 0;
-    let color_skip = (ty >> 3) & 0b111;
+    let _new_combo = ty & (1 << 2) > 0;
+    let _color_skip = (ty >> 3) & 0b111;
     let split = entries.next();
     if let Some(split) = split {
         hit_sample = Some(parse_hit_sample(split)?);

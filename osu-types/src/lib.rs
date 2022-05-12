@@ -162,6 +162,7 @@ pub enum SpecificHitObject {
         curve_points: Vec<OsuPoint>,
         slides: u8,
         length: f32,
+        edge_sounds: Vec<u8>,
     },
     Spinner {
         end_time: u32,

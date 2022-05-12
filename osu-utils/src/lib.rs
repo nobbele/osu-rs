@@ -48,7 +48,7 @@ impl Spline {
             .collect::<Vec<_>>();
         let spline_points = match kind {
             CurveType::Linear => {
-                assert_eq!(points.len(), 2);
+                //assert_eq!(points.len(), 2);
                 let start = points[0];
                 let end = if let Some(pixel_length) = pixel_length {
                     point_on_line(points[0], points[1], pixel_length)
