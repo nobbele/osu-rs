@@ -225,7 +225,13 @@ fn read_general_line<'a>(
     match key {
         "AudioFilename" => general.audio_file_name = Some(value),
         "AudioLeadIn" => general.audio_lead_in = Some(value.parse()?),
-        "PreviewTime" => general.preview_time = Some(value.parse()?),
+        "PreviewTime" => {
+            general.preview_time = if value == "-1" {
+                None
+            } else {
+                Some(value.parse()?)
+            }
+        }
         "Countdown" => {
             general.countdown = match value.parse::<u8>()? {
                 0 => None,
@@ -236,7 +242,11 @@ fn read_general_line<'a>(
             }
         }
         "SampleSet" => {
-            general.sample_set = Some(SampleSet::from_str(value).ok_or(OsuParserError::BadFormat)?);
+            general.sample_set = if value == "None" {
+                None
+            } else {
+                Some(SampleSet::from_str(value).ok_or(OsuParserError::BadFormat)?)
+            };
         }
         "StackLeniency" => general.stack_leniency = Some(value.parse()?),
         "Mode" => {
@@ -320,7 +330,13 @@ fn read_event_line(line: &str) -> Result<Event, OsuParserError> {
         "0" => {
             // this is always 0 for some reason
             entries.next();
-            let filename = entries.next().ok_or(OsuParserError::BadFormat)?;
+            let filename = entries
+                .next()
+                .ok_or(OsuParserError::BadFormat)?
+                .strip_prefix("\"")
+                .unwrap()
+                .strip_suffix("\"")
+                .unwrap();
             let x_offset = entries.next().map(|v| v.parse()).transpose()?.unwrap_or(0);
             let y_offset = entries.next().map(|v| v.parse()).transpose()?.unwrap_or(0);
             Event::Background {
