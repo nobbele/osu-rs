@@ -93,9 +93,9 @@ pub enum Mode {
     serde(crate = "serde_crate")
 )]
 pub struct RGB<T> {
-    r: T,
-    g: T,
-    b: T,
+    pub r: T,
+    pub g: T,
+    pub b: T,
 }
 
 pub type ComboColor = RGB<u8>;
@@ -198,6 +198,7 @@ pub struct HitObject {
     pub specific: SpecificHitObject,
     pub hit_sound: u8,
     pub hit_sample: HitSample,
+    pub new_combo: bool,
 }
 
 #[derive(Debug, Clone, PartialEq)]

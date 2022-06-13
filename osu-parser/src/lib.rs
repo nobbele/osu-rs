@@ -211,7 +211,32 @@ fn finalize_parse(data: ParseData) -> Result<Beatmap, OsuParserError> {
             },
         },
         events: data.events,
-        colors: data.colors,
+        colors: if data.colors.len() == 0 {
+            vec![
+                ComboColor {
+                    r: u8::MAX,
+                    g: 0,
+                    b: 0,
+                },
+                ComboColor {
+                    r: 0,
+                    g: u8::MAX,
+                    b: 0,
+                },
+                ComboColor {
+                    r: 0,
+                    g: 0,
+                    b: u8::MAX,
+                },
+                ComboColor {
+                    r: u8::MAX,
+                    g: 0,
+                    b: u8::MAX,
+                },
+            ]
+        } else {
+            data.colors
+        },
         timing_points: data.timing_points,
         hit_objects: data.hit_objects,
     })
@@ -477,7 +502,7 @@ fn read_hitobject_line(line: &str) -> Result<HitObject, OsuParserError> {
     } else {
         return Err(OsuParserError::BadFormat);
     };
-    let _new_combo = ty & (1 << 2) > 0;
+    let new_combo = ty & (1 << 2) > 0;
     let _color_skip = (ty >> 3) & 0b111;
     let split = entries.next();
     if let Some(split) = split {
@@ -496,5 +521,6 @@ fn read_hitobject_line(line: &str) -> Result<HitObject, OsuParserError> {
             volume: 100,
             filename: None,
         }),
+        new_combo,
     })
 }
